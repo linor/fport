@@ -73,7 +73,8 @@ typedef enum {
     RX_FRAME_FAILSAFE = (1 << 1),
     RX_FRAME_PROCESSING_REQUIRED = (1 << 2),
     RX_FRAME_DROPPED = (1 << 3),
-    RX_TIMEOUT = (1 << 4)
+    RX_TIMEOUT = (1 << 4),
+    RX_NOT_INITIALIZED = (1 << 5)
 } frameState;
 
 typedef struct  {

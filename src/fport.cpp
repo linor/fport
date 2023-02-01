@@ -145,6 +145,13 @@ uint8_t FPort::decodeSBusChannels(const sbusChannels_t *sbusChannels) {
         channels[17] = SBUS_DIGITAL_CHANNEL_MIN;
     }
 
+    bool hasValues = false;
+    for(int i = 0; i < 16; i++) if (channels[i]) hasValues = true;
+    if (!sbusChannels->flags && !hasValues) {
+        return RX_FRAME_COMPLETE | RX_NOT_INITIALIZED;
+    }
+
+
     if (sbusChannels->flags & SBUS_FLAG_FAILSAFE_ACTIVE) {
         // internal failsafe enabled and rx failsafe flag set
         // RX *should* still be sending valid channel data (repeated), so use it.
@@ -185,7 +192,7 @@ uint8_t FPort::parsePendingData() {
                             result = decodeSBusChannels(&frame->data.controlData.channels);
                             _lastRcFrameReceivedMs = millis();
 
-                            if (!(result & (RX_FRAME_FAILSAFE | RX_FRAME_DROPPED))) {
+                            if (!(result & (RX_FRAME_FAILSAFE | RX_FRAME_DROPPED | RX_NOT_INITIALIZED))) {
                                 _lastRcFrameTimeUs = _rxBuffer[_rxBufferReadIndex].frameStartTimeUs;
                             }
                         }
