@@ -319,11 +319,10 @@ void FPort::processTelemetry() {
                     break;
                 }
             }
-        }
-
-        if (_clearToSend) {
-//            smartPortWriteFrameFport(this->_port, &emptySmartPortFrame);
-            _clearToSend = false;
+            if (_clearToSend) {
+            //    smartPortWriteFrameFport(this->_port, &emptySmartPortFrame);
+                _clearToSend = false;
+            }
         }
 
         _lastTelemetryFrameSentUs = currentTimeUs;
